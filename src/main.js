@@ -26,7 +26,7 @@ function calculateInOtherThread(n) {
   return new Promise((resolve, reject) => {
     const begin = Date.now();
 
-    const worker = new Worker(pathJoin(__dirname, 'calculate-with-worker.js'), {
+    const worker = new Worker(pathJoin(__dirname, 'calculate-in-other-thread.js'), {
       workerData: {
         n,
       },
