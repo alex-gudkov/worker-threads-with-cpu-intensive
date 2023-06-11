@@ -1,6 +1,6 @@
-const path = require('node:path');
-const { fibonacci } = require('./fibonacci');
 const { Worker } = require('node:worker_threads');
+const { join: pathJoin } = require('node:path');
+const { fibonacci } = require('./fibonacci');
 
 function calculateInMainThread(n) {
   return new Promise((resolve, reject) => {
@@ -26,8 +26,10 @@ function calculateInOtherThread(n) {
   return new Promise((resolve, reject) => {
     const begin = Date.now();
 
-    const worker = new Worker(path.join(__dirname, 'calculate-with-worker.js'), {
-      workerData: n,
+    const worker = new Worker(pathJoin(__dirname, 'calculate-with-worker.js'), {
+      workerData: {
+        n,
+      },
     });
 
     worker.once('message', (result) => {
@@ -47,16 +49,20 @@ function calculateInOtherThread(n) {
 }
 
 async function main() {
+  // choose function to use for calculating
   const calculate = calculateInOtherThread;
+
+  // position of fibonacci number to calculate
+  const n = 40;
 
   const begin = Date.now();
 
   const results = await Promise.all([
-    calculate(40),
-    calculate(40),
-    calculate(40),
-    calculate(40),
-    calculate(40),
+    calculate(n),
+    calculate(n),
+    calculate(n),
+    calculate(n),
+    calculate(n),
   ]);
 
   const end = Date.now();
