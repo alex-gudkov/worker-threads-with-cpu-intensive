@@ -1,0 +1,14 @@
+{
+  "name": "worker-threads-with-cpu-intensive",
+  "version": "1.0.0",
+  "description": "",
+  "author": "alex-gudkov",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "./src/main.js",
+  "scripts": {
+    "start": "node ./src/main.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
