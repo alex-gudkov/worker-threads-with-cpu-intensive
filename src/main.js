@@ -4,14 +4,14 @@ const { fibonacci } = require('./fibonacci');
 
 function calculateInMainThread(n) {
   return new Promise((resolve, reject) => {
-    const begin = Date.now();
+    const t1 = Date.now();
 
     try {
       const result = fibonacci(n);
 
-      const end = Date.now();
+      const t2 = Date.now();
 
-      console.log('time:', end - begin);
+      console.log('time:', t2 - t1);
 
       resolve(result);
     } catch (error) {
@@ -24,7 +24,7 @@ function calculateInMainThread(n) {
 
 function calculateInOtherThread(n) {
   return new Promise((resolve, reject) => {
-    const begin = Date.now();
+    const t1 = Date.now();
 
     const worker = new Worker(pathJoin(__dirname, 'calculate-in-other-thread.js'), {
       workerData: {
@@ -33,9 +33,9 @@ function calculateInOtherThread(n) {
     });
 
     worker.once('message', (result) => {
-      const end = Date.now();
+      const t2 = Date.now();
 
-      console.log('time:', end - begin);
+      console.log('time:', t2 - t1);
 
       resolve(result);
     });
@@ -55,7 +55,7 @@ async function main() {
   // position of fibonacci number to calculate
   const n = 40;
 
-  const begin = Date.now();
+  const t1 = Date.now();
 
   const results = await Promise.all([
     calculate(n),
@@ -65,10 +65,10 @@ async function main() {
     calculate(n),
   ]);
 
-  const end = Date.now();
+  const t2 = Date.now();
 
   console.log('results:', results);
-  console.log('total time:', end - begin);
+  console.log('total time:', t2 - t1);
 }
 
 main();
